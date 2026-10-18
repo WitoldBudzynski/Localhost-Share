@@ -1,0 +1,20 @@
+{
+  "name": "localhost-share",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Lokalne udostępnianie plików przez HTTP/HTTPS i kod QR",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "start": "node start.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/server.test.mjs",
+    "test:large": "node scripts/test-large.mjs"
+  },
+  "dependencies": {
+    "ipaddr.js": "2.5.0",
+    "qrcode": "1.5.4",
+    "selfsigned": "5.5.0"
+  },
+  "devDependencies": { "esbuild": "0.28.2" }
+}

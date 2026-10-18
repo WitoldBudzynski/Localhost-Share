@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f7fa">
+  <title>Localhost Share · Twoje pliki, blisko</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+    <symbol id="i-transfer" viewBox="0 0 24 24"><path d="M4 7h15m-5-5 5 5-5 5M20 17H5m5-5-5 5 5 5"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5M4 15v5h16v-5"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7V4h6l3 3h9v13H3z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H5v18h14V8zm0 0v6h5M8 14h8m-8 3h6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v13m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7a9 9 0 1 0 1 8M20 2v6h-6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 8a16 16 0 0 1 20 0M5 12a11 11 0 0 1 14 0m-11 4a6 6 0 0 1 8 0m-4 4h.01"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="m14 6-6 6 6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  </defs></svg>
+  <header class="topbar"><div class="brand"><span class="brand-icon"><svg><use href="#i-transfer"/></svg></span><span>localhost<span class="brand-light"> share</span></span></div><div class="network-pill"><span class="dot"></span><span id="network-label">Twoja sieć lokalna</span></div></header>
+  <main>
+    <section class="intro"><div class="eyebrow">Z KOMPUTERA NA TELEFON. I Z POWROTEM.</div><h1>Twoje pliki, <span>blisko.</span></h1><p>Przesyłaj swobodnie między urządzeniami w tej samej sieci.</p></section>
+    <section id="login" class="card login" hidden><h2>Połącz z komputerem</h2><p>Zeskanuj kod QR wyświetlony na komputerze lub wklej kod dostępu z terminala.</p><form id="login-form"><label for="access-code">Kod dostępu</label><div class="login-controls"><input id="access-code" autocomplete="off" spellcheck="false" required placeholder="Wklej kod dostępu"><button class="button primary" type="submit">Połącz</button></div></form><p id="login-error" role="alert"></p></section>
+    <div id="workspace" class="layout" hidden>
+      <div class="main-column">
+        <section id="drop-zone" class="drop-zone" aria-label="Wgrywanie plików">
+          <span class="upload-icon"><svg><use href="#i-upload"/></svg></span>
+          <h2>Dodaj coś do wspólnego folderu</h2><p>Przeciągnij tutaj pliki lub cały folder</p>
+          <div class="upload-actions"><button id="choose-files" class="button primary"><svg><use href="#i-upload"/></svg>Wybierz pliki</button><button id="choose-folder" class="button secondary"><svg><use href="#i-folder"/></svg>Wybierz folder</button></div>
+          <span class="helper">Dowolny typ pliku <span>·</span> do 1 GB na plik</span>
+          <input id="file-input" type="file" multiple hidden><input id="folder-input" type="file" webkitdirectory multiple hidden>
+        </section>
+        <section id="transfers" class="card transfers" hidden aria-live="polite"><div class="section-heading"><h2>Przesyłanie</h2><button id="cancel-upload" class="text-button">Anuluj</button></div><div id="transfer-list"></div></section>
+        <section class="card files-card">
+          <div class="section-heading"><div class="title-with-count"><h2>Wspólny folder</h2><span id="file-count" class="count">0</span></div><button id="refresh" class="icon-button" aria-label="Odśwież pliki"><svg><use href="#i-refresh"/></svg></button></div>
+          <div class="file-toolbar"><nav id="breadcrumbs" aria-label="Ścieżka folderu"></nav><label class="search"><svg><use href="#i-search"/></svg><input id="search" type="search" placeholder="Szukaj pliku…" aria-label="Szukaj w bieżącym folderze"></label></div>
+          <div class="table-heading"><span>Nazwa</span><span>Rozmiar</span><span></span></div>
+          <div id="file-list" aria-live="polite"></div>
+          <div id="empty-state" class="empty-state" hidden><svg><use href="#i-folder"/></svg><p>Tu jest miejsce na Twoje pliki</p><span>Dodaj pierwszy plik, aby udostępnić go innym urządzeniom.</span></div>
+          <div class="files-footer"><span id="folder-summary">Wszystko aktualne</span><span>Pliki zostają na komputerze</span></div>
+        </section>
+      </div>
+      <aside>
+        <section class="card connect-card"><div class="eyebrow">POŁĄCZ DRUGIE URZĄDZENIE</div><h2>Zeskanuj. I gotowe.</h2><p>Otwórz aparat w telefonie i skieruj go na kod QR.</p><div class="qr-frame"><img id="qr-code" width="224" height="224" alt="Kod QR do połączenia z aplikacją"></div><div class="protocol-switch" role="group" aria-label="Protokół połączenia"><button id="protocol-http" class="selected">HTTP</button><button id="protocol-https">HTTPS <span>↗</span></button></div><div class="connection-address"><span id="connection-address"></span><button id="copy-link" class="text-button">Kopiuj link</button></div><p id="tls-note" class="tls-note" hidden>Przy pierwszym połączeniu zaakceptuj w przeglądarce certyfikat samopodpisany.</p><div class="wifi-tip"><svg><use href="#i-wifi"/></svg><span>Oba urządzenia muszą być<br><strong>w tej samej sieci Wi-Fi / LAN.</strong></span></div></section>
+        <div class="privacy-note"><span class="privacy-dot"></span><div><strong>Krótka droga. Pełna prywatność.</strong><p>Transfer odbywa się bezpośrednio przez Twoją sieć. Bez chmury i bez konta.</p></div></div>
+        <button id="stop-server" class="text-button stop-server" hidden>Zakończ udostępnianie</button>
+      </aside>
+    </div>
+    <div id="notice" role="status" class="notice" hidden></div>
+    <footer class="page-footer"><span>LOCALHOST SHARE</span><span>Mała sieć. Duże możliwości.</span><span>HTTP <span class="footer-dot">/</span> HTTPS</span></footer>
+  </main>
+</body>
+</html>

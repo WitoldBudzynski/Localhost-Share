@@ -1,0 +1,27 @@
+# Zależności i wynik budowania
+node_modules/
+/dist/
+
+# Udostępniane pliki, certyfikaty i przerwane transfery
+/shared/
+/.localhost-share/
+.localhost-share-tmp-*/
+
+# Lokalne zmienne środowiskowe
+.env
+.env.*
+!.env.example
+
+# Logi i raporty testów
+*.log
+coverage/
+playwright-report/
+test-results/
+
+# Pliki systemowe i tymczasowe edytorów
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
